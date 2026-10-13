@@ -1,5 +1,30 @@
 # Changelog
 
+## Unreleased
+
+FEATURES:
+
+* **New Resource:** `omada_switch` — manages the name of a switch the
+  controller has already adopted, imported by MAC. Regular and Agile Series
+  (Easy Managed) switches are both supported; the provider follows the
+  controller's own answer to pick the matching endpoint. Removing it from
+  Terraform only relinquishes management and does not forget or reset the
+  switch.
+* **New Resource:** `omada_site` — manages the name of an existing site,
+  imported by site name or ID. It never creates or deletes a site.
+
+NOTES:
+
+* Both resources use the public Open API: the application's access token when
+  `client_id` and `client_secret` are configured, the classic session
+  otherwise. A switch rename is a partial PATCH that carries only the name. A
+  site rename is a full-object read-modify-write, because the endpoint replaces
+  the whole site; region, time zone, NTP, DST, scenario and location are sent
+  back as read.
+* Verified against Omada Controller 6.3.0.45: reads and the endpoint selection
+  for Agile Series switches with both authentication modes, writes with Open
+  API client credentials.
+
 ## 0.4.0 (2026-09-11)
 
 FEATURES:
